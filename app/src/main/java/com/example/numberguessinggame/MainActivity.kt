@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var btnRight : Button
     var x = (0..9).random()
     var y = (0..9).random()
+    var num_correct : Int = 0
+    var num_wrong : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,44 +38,18 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             background = findViewById<ConstraintLayout>(R.id.background)
         }
-        var num_correct : Int = 0
-        var num_wrong : Int = 0
-        var flag : Boolean = true
-        var text = ""
         if (x==y) {
             x = 1
             y = 2
         }
-
         btnLeft.setText(x.toString())
         btnRight.setText(y.toString())
 
         btnLeft.setOnClickListener {
-            if (x<y){
-                num_correct++
-                val arr : ArrayList<Int> = modify_variables()
-                x = arr[0]
-                y = arr[1]
-                modify_variables()
-                modify_screen(x,y,true,R.color.green,num_correct,num_wrong,R.color.black)
-            }
-            else{
-                num_wrong++
-                modify_screen(x,y,false,R.color.red,num_correct,num_wrong,R.color.white)
-            }
+            perform_operation(x,y)
         }
         btnRight.setOnClickListener {
-            if (y<x){
-                num_correct++
-                val arr : ArrayList<Int> = modify_variables()
-                x = arr[0]
-                y = arr[1]
-                modify_screen(x,y,true,R.color.green,num_correct,num_wrong,R.color.black)
-            }
-            else{
-                num_wrong++
-                modify_screen(x,y,false,R.color.red,num_correct,num_wrong,R.color.white)
-            }
+            perform_operation(y,x)
         }
     }
 
@@ -104,6 +80,21 @@ class MainActivity : AppCompatActivity() {
         else{
             Toast.makeText(this,"Wrong answer",Toast.LENGTH_SHORT).show()
             textView.setTextColor(getColor(text_color))
+        }
+    }
+
+    fun perform_operation(a : Int, b : Int){
+        if (a<b){
+            num_correct++
+            val arr : ArrayList<Int> = modify_variables()
+            x = arr[0]
+            y = arr[1]
+            modify_variables()
+            modify_screen(x,y,true,R.color.green,num_correct,num_wrong,R.color.black)
+        }
+        else{
+            num_wrong++
+            modify_screen(x,y,false,R.color.red,num_correct,num_wrong,R.color.white)
         }
     }
 }
