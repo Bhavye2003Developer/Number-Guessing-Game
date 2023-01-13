@@ -23,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var btnLeft : Button
     lateinit var btnRight : Button
+    var x = (0..9).random()
+    var y = (0..9).random()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,9 +38,8 @@ class MainActivity : AppCompatActivity() {
         }
         var num_correct : Int = 0
         var num_wrong : Int = 0
+        var flag : Boolean = true
         var text = ""
-        var x = (0..9).random()
-        var y = (0..9).random()
         if (x==y) {
             x = 1
             y = 2
@@ -50,12 +51,10 @@ class MainActivity : AppCompatActivity() {
         btnLeft.setOnClickListener {
             if (x<y){
                 num_correct++
-                x = (0..9).random()
-                y = (0..9).random()
-                if (x==y) {
-                    x = 1
-                    y = 2
-                }
+                val arr : ArrayList<Int> = modify_variables()
+                x = arr[0]
+                y = arr[1]
+                modify_variables()
                 modify_screen(x,y,true,R.color.green,num_correct,num_wrong,R.color.black)
             }
             else{
@@ -66,12 +65,9 @@ class MainActivity : AppCompatActivity() {
         btnRight.setOnClickListener {
             if (y<x){
                 num_correct++
-                x = (0..9).random()
-                y = (0..9).random()
-                if (x==y) {
-                    x = 1
-                    y = 2
-                }
+                val arr : ArrayList<Int> = modify_variables()
+                x = arr[0]
+                y = arr[1]
                 modify_screen(x,y,true,R.color.green,num_correct,num_wrong,R.color.black)
             }
             else{
@@ -79,6 +75,19 @@ class MainActivity : AppCompatActivity() {
                 modify_screen(x,y,false,R.color.red,num_correct,num_wrong,R.color.white)
             }
         }
+    }
+
+    private fun modify_variables() : ArrayList<Int> {
+        var arr : ArrayList<Int> = ArrayList()
+        x = (0..9).random()
+        y = (0..9).random()
+        if (x==y) {
+            x = 1
+            y = 2
+        }
+        arr.add(x)
+        arr.add(y)
+        return arr
     }
 
     @SuppressLint("NewApi")
