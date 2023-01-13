@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var textView: TextView
     lateinit var btnLeft : Button
     lateinit var btnRight : Button
+    lateinit var show_result : Button
     var x = (0..9).random()
     var y = (0..9).random()
     var num_correct : Int = 0
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         btnLeft = findViewById(R.id.btnLeft)
         btnRight = findViewById(R.id.btnRight)
         textView = findViewById(R.id.textView)
+        show_result = findViewById(R.id.show_result)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             background = findViewById<ConstraintLayout>(R.id.background)
         }
@@ -50,6 +52,25 @@ class MainActivity : AppCompatActivity() {
         }
         btnRight.setOnClickListener {
             perform_operation(y,x)
+        }
+        show_result.setOnClickListener {
+            textView.setTextColor(getColor(R.color.white))
+            if (num_correct>num_wrong) textView.setText("You Won")
+            else if (num_correct<num_wrong){
+                textView.setText("You Lost")
+            }
+            else{
+                textView.setText("Draw")
+            }
+            x = 1
+            y = 2
+            btnLeft.setText(x.toString())
+            btnRight.setText(y.toString())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                background.setBackgroundColor(getColor(R.color.black))
+            }
+            num_correct = 0
+            num_wrong = 0
         }
     }
 
